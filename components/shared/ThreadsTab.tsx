@@ -1,6 +1,7 @@
 import { fetchUserPosts } from "@/lib/actions/user.action";
 import { redirect } from "next/navigation";
 import ThreadCard from "../cards/ThreadCard";
+import { fetchCommunityPosts } from "@/lib/actions/community.action";
 
 interface Props {
   currentUserId: string;
@@ -13,8 +14,15 @@ export default async function ThreadsTab({
   accountId,
   accountType,
 }: Props) {
-  const results = await fetchUserPosts(accountId);
+  let results: any;
+  if (accountType === "User") {
+    results = await fetchUserPosts(accountId);
+  } else {
+    results = await fetchCommunityPosts(accountId);
+  }
+
   //下面author要手动更新一下，因为先渲染ThreadCard，results需要等待。
+
   if (!results) redirect("/");
 
   return (
