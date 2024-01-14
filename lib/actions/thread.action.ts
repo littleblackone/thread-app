@@ -63,7 +63,8 @@ export async function createThread({
 }: Params) {
   try {
     connectToDB();
-
+    
+    //根据id查community，只返回_id字段
     const communityIdObject = await Community.findOne(
       { id: communityId },
       { _id: 1 }
@@ -72,7 +73,7 @@ export async function createThread({
     const createdThread = await Thread.create({
       text,
       author,
-      community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
+      community: communityIdObject._id, // Assign communityId if provided, or leave it null for personal account
     });
 
     // Update User model
