@@ -19,6 +19,8 @@ export default function Searchbar({ routeType }: Props) {
     const delayDebounceFn = setTimeout(() => {
       if (search) {
         router.push(`/${routeType}?q=` + search);
+      } else {
+        router.push(`/${routeType}`);
       }
     }, 300);
 
